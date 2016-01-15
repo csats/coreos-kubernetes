@@ -132,6 +132,14 @@ func (c *Cluster) Create(tlsConfig *TLSConfig) error {
 		})
 	}
 
+	if c.cfg.ControllerTenancy != "" {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parControllerTenancy),
+			ParameterValue:   aws.String(c.cfg.ControllerTenancy),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
 	if c.cfg.WorkerCount > 0 {
 		parameters = append(parameters, &cloudformation.Parameter{
 			ParameterKey:     aws.String(parWorkerCount),
@@ -160,6 +168,14 @@ func (c *Cluster) Create(tlsConfig *TLSConfig) error {
 		parameters = append(parameters, &cloudformation.Parameter{
 			ParameterKey:     aws.String(parWorkerSpotPrice),
 			ParameterValue:   aws.String(c.cfg.WorkerSpotPrice),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
+	if c.cfg.WorkerTenancy != "" {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parWorkerTenancy),
+			ParameterValue:   aws.String(c.cfg.WorkerTenancy),
 			UsePreviousValue: aws.Bool(true),
 		})
 	}

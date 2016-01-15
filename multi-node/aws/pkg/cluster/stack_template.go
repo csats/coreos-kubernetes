@@ -32,6 +32,7 @@ const (
 	parNameReleaseChannel           = "ReleaseChannel"
 	parNameControllerInstanceType   = "ControllerInstanceType"
 	parNameControllerRootVolumeSize = "ControllerRootVolumeSize"
+	parControllerTenancy            = "ControllerTenancy"
 	parNameWorkerInstanceType       = "WorkerInstanceType"
 	parNameKeyName                  = "KeyName"
 	parArtifactURL                  = "ArtifactURL"
@@ -43,6 +44,7 @@ const (
 	parWorkerCount                  = "WorkerCount"
 	parNameWorkerRootVolumeSize     = "WorkerRootVolumeSize"
 	parWorkerSpotPrice              = "WorkerSpotPrice"
+	parWorkerTenancy                = "WorkerTenancy"
 	parAvailabilityZone             = "AvailabilityZone"
 	parVPCCIDR                      = "VPCCIDR"
 	parInstanceCIDR                 = "InstanceCIDR"
@@ -422,6 +424,7 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 				"Fn::Base64": renderTemplate(baseControllerCloudConfig),
 			},
 			"IamInstanceProfile": newRef(resNameIAMInstanceProfileController),
+			"Tenancy":            newRef(parControllerTenancy),
 			"NetworkInterfaces": []map[string]interface{}{
 				map[string]interface{}{
 					"PrivateIpAddress":         newRef(parControllerIP),
@@ -501,6 +504,7 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 					},
 				},
 			},
+			"PlacementTenancy": newRef(parWorkerTenancy),
 			"SpotPrice": map[string]interface{}{
 				"Fn::If": []interface{}{
 					"UseWorkerSpotInstances",
@@ -563,6 +567,12 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 		"Description": "EC2 instance type used for each worker instance",
 	}
 
+	par[parControllerTenancy] = map[string]interface{}{
+		"Type":        "String",
+		"Default":     "default",
+		"Description": "Tenancy of the controller EC2 instance",
+	}
+
 	par[parNameKeyName] = map[string]interface{}{
 		"Type":        "String",
 		"Description": "Name of SSH keypair to authorize on each instance",
@@ -609,6 +619,12 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 		"Type":        "String",
 		"Default":     "30",
 		"Description": "Worker root volume size (GiB)",
+	}
+
+	par[parWorkerTenancy] = map[string]interface{}{
+		"Type":        "String",
+		"Default":     "default",
+		"Description": "Tenancy of the worker EC2 instances",
 	}
 
 	par[parWorkerSpotPrice] = map[string]interface{}{

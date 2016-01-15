@@ -34,9 +34,11 @@ type Config struct {
 	ReleaseChannel           string `yaml:"releaseChannel"`
 	ControllerInstanceType   string `yaml:"controllerInstanceType"`
 	ControllerRootVolumeSize int    `yaml:"controllerRootVolumeSize"`
+	ControllerTenancy        string `yaml:"controllerTenancy"`
 	WorkerCount              int    `yaml:"workerCount"`
 	WorkerInstanceType       string `yaml:"workerInstanceType"`
 	WorkerRootVolumeSize     int    `yaml:"workerRootVolumeSize"`
+	WorkerTenancy            string `yaml:"workerTenancy"`
 	WorkerSpotPrice          string `yaml:"workerSpotPrice"`
 	VPCCIDR                  string `yaml:"vpcCIDR"`
 	InstanceCIDR             string `yaml:"instanceCIDR"`

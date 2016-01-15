@@ -24,6 +24,9 @@ externalDNSName:
 # Disk size (GiB) for controller node
 #controllerRootVolumeSize: 30
 
+# Tenancy of the controller node. Options are "default" and "dedicated"
+# controllerTenancy: default
+
 # Number of worker nodes to create
 #workerCount: 1
 
@@ -35,6 +38,9 @@ externalDNSName:
 
 # Price (Dollars) to bid for spot instances. Omit for on-demand instances.
 # workerSpotPrice: "0.05"
+
+# Tenancy of the worker nodes. Options are "default" and "dedicated"
+# controllerTenancy: default
 
 # Location of kube-aws artifacts used to deploy a new
 # Kubernetes cluster. The necessary artifacts are already
