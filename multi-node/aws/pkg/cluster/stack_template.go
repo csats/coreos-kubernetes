@@ -504,7 +504,13 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 					},
 				},
 			},
-			"PlacementTenancy": newRef(parWorkerTenancy),
+			"PlacementTenancy": map[string]interface{}{
+				"Fn::If": []interface{}{
+					"UseWorkerSpotInstances",
+					newRef("AWS::NoValue"),
+					newRef(parWorkerTenancy),
+				},
+			},
 			"SpotPrice": map[string]interface{}{
 				"Fn::If": []interface{}{
 					"UseWorkerSpotInstances",
